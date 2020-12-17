@@ -71,24 +71,23 @@ const unsigned int Ni, const unsigned int No, const float l,const unsigned int i
     CImg<unsigned char> prof(Ni+No,mesh.getNbPoints());
 
     for (unsigned int i = 0; i < mesh.getNbPoints(); ++i){
-        float p[3]; mesh.getPoint(p, i);
-        float n[3]; mesh.getNormal(n, i);
+        float point[3]; mesh.getPoint(point, i);
+        float normal[3]; mesh.getNormal(normal, i);
+        float temp[3];
 
         for (unsigned int j = 0; j < Ni; ++j){
-            float tmp[3];
-            tmp[0] = p[0] - n[0] * j * l;
-            tmp[1] = p[1] - n[1] * j * l;
-            tmp[2] = p[2] - n[2] * j * l;
+            temp[0] = point[0] - normal[0] * j * l;
+            temp[1] = point[1] - normal[1] * j * l;
+            temp[2] = point[2] - normal[2] * j * l;
 
-            unsigned char val = img.getValue(tmp, interpolationType);
+            unsigned char val = img.getValue(temp, interpolationType);
             prof(Ni - j - 1, i) = val;
         }
 
         for (unsigned int k = 0; k < No; ++k){
-            float tmp[3];
-            tmp[0] = p[0] - n[0] * k * l;
-            tmp[1] = p[1] - n[1] * k * l;
-            tmp[2] = p[2] - n[2] * k * l;
+            temp[0] = point[0] - normal[0] * k * l;
+            temp[1] = point[1] - normal[1] * k * l;
+            temp[2] = point[2] - normal[2] * k * l;
 
             unsigned char val = img.getValue(tmp, interpolationType);
             prof(Ni + k - 1, i) = val;
